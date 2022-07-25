@@ -2,7 +2,7 @@ version: 2.1
 # Use a package of configuration called an orb.
 orbs:
   # Choose either one of the orbs below
-  aws-cli: circleci/aws-cli@2.0.3
+  # aws-cli: circleci/aws-cli@2.0.3
 
 commands:
    # Exercise - Rollback
