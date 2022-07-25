@@ -2,7 +2,7 @@ version: 2.1
 # Use a package of configuration called an orb.
 orbs:
   # Choose either one of the orbs below
-  # aws-cli: circleci/aws-cli@2.0.3
+  aws-cli: circleci/aws-cli@2.0.3
 # Define the jobs we want to run for this project
 jobs:
   create_infrastructure:  # Choose any name, such as `build`
@@ -36,7 +36,25 @@ jobs:
       - run:
           name: Run Playbook and Configure server
           command: |
-            sudo ansible-playbook -i inventory main-remote.yml
+             ansible-playbook -i inventory main-remote.yml
+
+  # Exercise: Smoke Testing
+  smoke_test:
+    docker:
+      - image: alpine:latest
+    steps:
+      - run: apk add --update curl
+      - run:
+          name: smoke test
+          command: |
+            URL="https://blog.udacity.com/"
+            # Test if website exists
+            if curl -s --head ${URL} 
+            then
+              return 0
+            else
+              return 1
+            fi           
 
 # Sequential workflow
 workflows:
@@ -44,5 +62,6 @@ workflows:
   Infrastructure-Workflow:
     jobs:
       # - create_infrastructure
-      - configure_infrastructure  
+      # - configure_infrastructure
+      - smoke_test  
       
